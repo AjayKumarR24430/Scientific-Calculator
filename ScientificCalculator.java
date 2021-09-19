@@ -3,9 +3,11 @@
 import java.awt.*;
 //mvc framework for java - provide a more sophisticated set of 
 // GUI components than the earlier Abstract Window Toolkit (AWT). 
-import javax.swing.*;
+import javax.swing.*; // GUI Widget Toolkit
 import java.awt.event.*;
 import javax.swing.event.*;
+
+// JFrame works like the main window where components like labels, buttons, textfields are added to create a GUI.
 
 public class ScientificCalculator extends JFrame implements ActionListener {
 	JTextField tfield;
@@ -82,6 +84,10 @@ public class ScientificCalculator extends JFrame implements ActionListener {
 		buttonpanel.add(b3);
 		b3.addActionListener(this);
 
+		plus = new JButton("+");
+		buttonpanel.add(plus);
+		plus.addActionListener(this);
+
 		b4 = new JButton("4");
 		buttonpanel.add(b4);
 		b4.addActionListener(this);
@@ -91,6 +97,10 @@ public class ScientificCalculator extends JFrame implements ActionListener {
 		b6 = new JButton("6");
 		buttonpanel.add(b6);
 		b6.addActionListener(this);
+
+		min = new JButton("-");
+		buttonpanel.add(min);
+		min.addActionListener(this);
 
 		b7 = new JButton("7");
 		buttonpanel.add(b7);
@@ -102,49 +112,29 @@ public class ScientificCalculator extends JFrame implements ActionListener {
 		buttonpanel.add(b9);
 		b9.addActionListener(this);
 
-		zero = new JButton("0");
-		buttonpanel.add(zero);
-		zero.addActionListener(this);
-
-		plus = new JButton("+");
-		buttonpanel.add(plus);
-		plus.addActionListener(this);
-
-		min = new JButton("-");
-		buttonpanel.add(min);
-		min.addActionListener(this);
-
 		mul = new JButton("*");
 		buttonpanel.add(mul);
 		mul.addActionListener(this);
-
-		div = new JButton("/");
-		div.addActionListener(this);
-		buttonpanel.add(div);
-
-		addSub = new JButton("+/-");
-		buttonpanel.add(addSub);
-		addSub.addActionListener(this);
-
-		dot = new JButton(".");
-		buttonpanel.add(dot);
-		dot.addActionListener(this);
 
 		eq = new JButton("=");
 		buttonpanel.add(eq);
 		eq.addActionListener(this);
 
-		rec = new JButton("1/x");
-		buttonpanel.add(rec);
-		rec.addActionListener(this);
+		zero = new JButton("0");
+		buttonpanel.add(zero);
+		zero.addActionListener(this);
 
-		sqrt = new JButton("Sqrt");
-		buttonpanel.add(sqrt);
-		sqrt.addActionListener(this);
+		addSub = new JButton("+/-");
+		buttonpanel.add(addSub);
+		addSub.addActionListener(this);
 
-		log = new JButton("log");
-		buttonpanel.add(log);
-		log.addActionListener(this);
+		div = new JButton("/");
+		div.addActionListener(this);
+		buttonpanel.add(div);
+
+		dot = new JButton(".");
+		buttonpanel.add(dot);
+		dot.addActionListener(this);
 
 		sin = new JButton("SIN");
 		buttonpanel.add(sin);
@@ -158,6 +148,22 @@ public class ScientificCalculator extends JFrame implements ActionListener {
 		buttonpanel.add(tan);
 		tan.addActionListener(this);
 
+		rec = new JButton("1/x");
+		buttonpanel.add(rec);
+		rec.addActionListener(this);
+
+		sqrt = new JButton("Sqrt");
+		buttonpanel.add(sqrt);
+		sqrt.addActionListener(this);
+
+		log = new JButton("log");
+		buttonpanel.add(log);
+		log.addActionListener(this);
+
+		fac = new JButton("n!");
+		fac.addActionListener(this);
+		buttonpanel.add(fac);
+
 		pow2 = new JButton("x^2");
 		buttonpanel.add(pow2);
 		pow2.addActionListener(this);
@@ -168,12 +174,7 @@ public class ScientificCalculator extends JFrame implements ActionListener {
 
 		exp = new JButton("Exp");
 		exp.addActionListener(this);
-
 		buttonpanel.add(exp);
-		fac = new JButton("n!");
-		fac.addActionListener(this);
-
-		buttonpanel.add(fac);
 
 		clr = new JButton("AC");
 		buttonpanel.add(clr);
@@ -244,6 +245,8 @@ public class ScientificCalculator extends JFrame implements ActionListener {
         }
         return cosine;
     }
+
+	// log10(x) = ln(x)/ln10
 
 	public static double log10( double x ) {
 		double LN10 = 2.3025850929940456840179914546844;
