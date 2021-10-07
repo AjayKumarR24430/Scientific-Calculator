@@ -16,14 +16,15 @@ public class ScientificCalculator extends JFrame implements ActionListener {
 	int k = 1, x = 0, y = 0, z = 0;
 	char ch;
     // various button for the calculator
-	JButton b1, b2, b3, b4, b5, b6, b7, b8, b9, zero, clr, pow2, pow3, exp,
+	JButton b1, b2, b3, b4, b5, b6, b7, b8, b9, zero, clr, pow2, pow, exp,
 			fac, plus, min, div, log, rec, mul, eq, addSub, dot, mr, mc, mp,
-			mm, sqrt, sin, cos, tan;
+			mm, sqrt, sin, cos, tan, quadratic;
+	double pow_res=0, plus_res=0, sub_res=0, mul_res=0,div_res=0, res = 0;
 	Container cont;
     // JPanel, a part of Java Swing package, is a container that can store a group of 
     //components. The main task of JPanel is to organize components, various layouts 
     // can be set in JPanel which provide better organisation of components, 
-	JPanel textPanel, buttonpanel;
+	JPanel textPanel, buttonpanel, quadpanel;
 
 	ScientificCalculator() {
         //In Java Swing, the layer that is used to hold objects is called the content pane.
@@ -32,6 +33,7 @@ public class ScientificCalculator extends JFrame implements ActionListener {
         // set the layout of the calculator
 		cont.setLayout(new BorderLayout());
 		JPanel textpanel = new JPanel();
+		JPanel quadpanel = new JPanel();
         // textfield with 25 columns
 		tfield = new JTextField(25);
         // specifies the alignment of the number on the text field
@@ -168,9 +170,9 @@ public class ScientificCalculator extends JFrame implements ActionListener {
 		buttonpanel.add(pow2);
 		pow2.addActionListener(this);
 
-		pow3 = new JButton("x^3");
-		buttonpanel.add(pow3);
-		pow3.addActionListener(this);
+		pow = new JButton("^");
+		buttonpanel.add(pow);
+		pow.addActionListener(this);
 
 		exp = new JButton("Exp");
 		exp.addActionListener(this);
@@ -179,9 +181,14 @@ public class ScientificCalculator extends JFrame implements ActionListener {
 		clr = new JButton("AC");
 		buttonpanel.add(clr);
 		clr.addActionListener(this);
+
+		quadratic = new JButton("Solve Quadratic Equation");
+		quadpanel.add(quadratic);
+		quadratic.addActionListener(this);
         // positions of button and text panels
 		cont.add("Center", buttonpanel);
 		cont.add("North", textpanel);
+		cont.add("South", quadpanel);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
@@ -252,6 +259,10 @@ public class ScientificCalculator extends JFrame implements ActionListener {
 		double LN10 = 2.3025850929940456840179914546844;
     	return ln(x) / LN10;    
 	}
+
+	// expansion of ln(x) for x>0
+	// ln(x) =  2 * sum(n=1..inf) [ [((x-1)/(x+1))^(2n-1)] / (2n-1) ]
+ 	// ln(x) = 2* [ (x-1)/(x+1)  + (1/3)((x-1)/(x+1)^3 + (1/5)((x-1)/(x+1))^5 + (1/7)((x-1)/(x+1)^)7 + ... ] 
 
 	public static double ln(double x)
 	{
@@ -373,6 +384,7 @@ public class ScientificCalculator extends JFrame implements ActionListener {
 			x = 0;
 			y = 0;
 			z = 0;
+			res = 0;
 		}
 		if (s.equals("log")) {
 			if (tfield.getText().equals("")) {
@@ -412,13 +424,18 @@ public class ScientificCalculator extends JFrame implements ActionListener {
 				tfield.setText(tfield.getText() + a);
 			}
 		}
-		if (s.equals("x^3")) {
+		if (s.equals("^")) {
 			if (tfield.getText().equals("")) {
 				tfield.setText("");
+				temp = 0;
+				ch = '^';
 			} else {
-				a = power(Double.parseDouble(tfield.getText()), 3);
-				tfield.setText("");
-				tfield.setText(tfield.getText() + a);
+					temp = Double.parseDouble(tfield.getText());
+					// res = 
+					tfield.setText("");
+					ch = '^';
+					y = 0;
+					x = 0;
 			}
 		}
 		if (s.equals("+/-")) {
@@ -446,6 +463,8 @@ public class ScientificCalculator extends JFrame implements ActionListener {
 			} else {
                 // storing the operands in temporary variables
 				temp = Double.parseDouble(tfield.getText());
+				System.out.printf("+ res"+res);
+				res +=temp;
 				tfield.setText("");
 				ch = '+';
 				y = 0;
@@ -463,6 +482,9 @@ public class ScientificCalculator extends JFrame implements ActionListener {
 				y = 0;
                 // storing the operands in temporary variables
 				temp = Double.parseDouble(tfield.getText());
+				System.out.printf("sub res"+res);
+				System.out.printf("sub temp"+temp);
+				res = res - temp;
 				tfield.setText("");
 				ch = '-';
 			}
@@ -478,6 +500,7 @@ public class ScientificCalculator extends JFrame implements ActionListener {
 				y = 0;
                 // storing the operands in temporary variables
 				temp = Double.parseDouble(tfield.getText());
+				res /= temp;
 				ch = '/';
 				tfield.setText("");
 			}
@@ -493,6 +516,7 @@ public class ScientificCalculator extends JFrame implements ActionListener {
 				y = 0;
                 // storing the operands in temporary variables
 				temp = Double.parseDouble(tfield.getText());
+				res *=temp;
 				ch = '*';
 				tfield.setText("");
 			}
@@ -500,6 +524,7 @@ public class ScientificCalculator extends JFrame implements ActionListener {
 		}
 		if (s.equals("MC")) {
 			m1 = 0;
+			res = 0;
 			tfield.setText("");
 		}
 		if (s.equals("MR")) {
@@ -581,18 +606,23 @@ public class ScientificCalculator extends JFrame implements ActionListener {
                 // using the temp stored variables
                 // storing the operands in temporary variables
 				temp1 = Double.parseDouble(tfield.getText());
+				System.out.printf("temp is"+temp1);
+				System.out.printf("res is"+res);
 				switch (ch) {
 				case '+':
-					result = temp + temp1;
+					result = res + temp1;
 					break;
 				case '-':
-					result = temp - temp1;
+					result = res- temp1 ;
 					break;
 				case '/':
-					result = temp / temp1;
+					result = res / temp1;
 					break;
 				case '*':
-					result = temp * temp1;
+					result = res * temp1;
+					break;
+				case '^':
+					result = power(res,temp1);
 					break;
 				}
 				tfield.setText("");
